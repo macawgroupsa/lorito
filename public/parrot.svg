@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 110" fill="none">
+  <style>.wing{transform-box:fill-box;transform-origin:10% 90%;animation:flap .34s ease-in-out infinite alternate}@keyframes flap{from{transform:rotate(-17deg)}to{transform:rotate(20deg)}}</style>
+  <g>
+    <path d="M40 61c-3-17 9-34 26-37 15-3 29 7 32 22 3 16-8 31-23 35-15 4-31-4-35-20Z" fill="#45A65C"/>
+    <path d="M50 55c3-11 15-18 27-15 11 2 18 12 16 23-3 11-15 18-26 16-12-2-19-12-17-24Z" fill="#72C75D"/>
+    <path d="M93 43c9-12 21-14 30-7-8 2-13 8-17 17-4 7-10 10-17 8" fill="#F3BE32"/>
+    <path d="m98 47 20-9-13 19" fill="#EF7C3B"/>
+    <path d="M40 54c-13-10-23-11-31-5 9 1 15 6 20 14 4 7 9 11 17 9" fill="#1F8747"/>
+    <path d="M50 73c-9 12-19 16-29 12 8-4 12-10 15-18" fill="#267844"/>
+    <path d="m58 80-2 10m17-10 2 10" stroke="#EA9B27" stroke-width="4" stroke-linecap="round"/>
+    <path d="m56 91-7 3m7-3 1 5m21-5 7 3m-7-3-1 5" stroke="#E88730" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="87" cy="39" r="6" fill="white"/><circle cx="89" cy="39" r="2.6" fill="#173B2A"/>
+    <path d="M48 48c7-6 17-8 25-6" stroke="#B2E27B" stroke-width="3" stroke-linecap="round"/>
+    <g class="wing"><path d="M67 48c-7-15-4-28 9-37 2 14 8 23 18 29" fill="#29984F" stroke="#187D3F" stroke-width="2"/><path d="M70 39c3-8 7-14 13-20" stroke="#80D466" stroke-width="3" stroke-linecap="round"/></g>
+  </g>
+  <path d="m6 68-4 8m16-1-4 8m117-43 8-2m-7 8 7 1" stroke="#D6AA37" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+</svg>

@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+.number-grid { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: .4rem; }
+.number-tile { min-width: 0; min-height: 48px; border: 1px solid #e8ece4; border-radius: .75rem; background: #fbfcf8; color: #405247; font-size: .9rem; font-weight: 800; transition: transform .12s ease, background .12s ease, border-color .12s ease; touch-action: manipulation; }
+.number-tile:active { transform: scale(.93); }
+.number-tile-selected { border-color: #32804b; background: #2d7445; color: white; box-shadow: 0 4px 12px #2d744522; }
+@media (max-width: 480px) {
+    .number-grid { gap: .3rem; }
+    .number-tile { min-height: 43px; border-radius: .6rem; font-size: .8rem; }
+}
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+}
+
+body { font-family: var(--font-sans); background: #f7f8fa; color: #17211d; }
+* { scrollbar-width: thin; scrollbar-color: #d9dfdb transparent; }
+
+body { background: #f8f8f2; }
+.font-display { font-family: var(--font-display); }
+.brand-mark { display: inline-flex; width: 42px; height: 42px; flex: 0 0 auto; }
+.brand-mark svg { width: 100%; height: 100%; }
+.login-bg { background: radial-gradient(ellipse at 15% 10%, #e8f2d8 0, transparent 35%), radial-gradient(ellipse at 90% 85%, #f6e9ba 0, transparent 32%), #f8f8f2; }
+.login-art { background: linear-gradient(145deg, #286943, #1c4f35 60%, #153c2c); }
+.login-orb { position: absolute; border-radius: 50%; filter: blur(1px); pointer-events: none; }
+.login-orb-one { width: 340px; height: 340px; left: -160px; top: 12%; background: #b2cf9033; }
+.login-orb-two { width: 440px; height: 440px; right: -220px; bottom: -190px; background: #eecb5c24; }
+.lottery-balls { display: flex; gap: 7px; transform: rotate(-9deg); }
+.lottery-balls span, .hero-ball { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(145deg,#fff6c9,#f5cd50); color: #55451e; font: 800 13px var(--font-display); box-shadow: 0 5px 11px #132e222b, inset -2px -3px 5px #bb932a22; }
+.sidebar { background: #fffef9; border-right: 1px solid #e7ebdf; }
+.nav-active { color: #2f7044; background: #eaf3e5; box-shadow: inset 3px 0 #68a45f; }
+.hero-banner { background: radial-gradient(ellipse at 91% 12%, #5c9a54 0, transparent 31%), linear-gradient(112deg,#225d3b 0%,#347946 60%,#3f8247 100%); box-shadow: 0 12px 28px #315e351c; }
+.hero-rings { position: absolute; width: 360px; height: 360px; right: -70px; top: -205px; border: 1px solid #ffffff20; border-radius: 50%; box-shadow: 0 0 0 32px #ffffff09,0 0 0 64px #ffffff07; }
+.hero-star { position: absolute; color: #ffde69; opacity: .85; animation: twinkle 2.7s ease-in-out infinite; }
+.hero-star-one { right: 25%; top: 25%; font-size: 20px; }
+.hero-star-two { right: 12%; bottom: 18%; font-size: 13px; animation-delay: .9s; }
+.hero-ball { position: absolute; right: 17%; top: 35%; width: 58px; height: 58px; font-size: 21px; transform: rotate(12deg); box-shadow: 0 8px 20px #193c2836, inset -3px -4px 7px #bc932a22; }
+.hero-parrot { position: absolute; right: 5%; bottom: -14px; width: 152px; transform: rotate(-8deg); animation: parrot-bob 3s ease-in-out infinite; }
+.parrot-svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 9px 7px #17392333); }
+.parrot-img { display: block; width: 100%; height: auto; filter: drop-shadow(0 9px 7px #17392333); }
+.parrot-wing { transform-box: fill-box; transform-origin: 10% 90%; animation: flap .34s ease-in-out infinite alternate; }
+.flyby { position: fixed; z-index: 15; top: 74px; left: -155px; width: 88px; pointer-events: none; animation: fly-across 32s linear infinite; }
+.flyby .parrot-svg { width: 100%; }
+.login-parrot { position: absolute; z-index: 20; top: 16px; right: 22px; width: 76px; pointer-events: none; opacity: .95; animation: parrot-bob 2.8s ease-in-out infinite; }
+.login-parrot .parrot-svg { width: 100%; }
+.tone-mint { background: #e7f2e4; color: #548451; }
+.tone-sun { background: #fbf2d5; color: #a27f26; }
+.tone-pink { background: #faeae5; color: #b65e4d; }
+.tone-blue { background: #e8eff3; color: #5b8191; }
+.status-live { color: #47774a; background: #eaf3e6; }
+.status-wait { color: #977c32; background: #faf2d9; }
+.status-off { color: #8a9389; background: #eff1ec; }
+.field-label { display: block; color: #526456; font-size: 11px; font-weight: 700; }
+.field-label-text { display: block; color: #5e6e61; font-size: 10px; font-weight: 700; }
+.field-input { display: block; width: 100%; min-height: 41px; border: 1px solid #e1e8dc; border-radius: 10px; background: #fff; padding: 9px 11px; color: #2e4433; font-size: 11px; outline: none; transition: border-color .15s, box-shadow .15s; }
+.field-input:focus { border-color: #84af79; box-shadow: 0 0 0 3px #73a96f20; }
+.field-input::placeholder { color: #abb4a9; }
+.field-label .field-input { margin-top: 7px; min-height: 45px; font-size: 12px; }
+.spinner { width: 19px; height: 19px; border: 2px solid #dce8d7; border-top-color: #4c8954; border-radius: 50%; animation: spin .7s linear infinite; }
+.toast-pop { animation: toast-in .2s ease-out; }
+.modal-card { animation: modal-in .18s ease-out; }
+.v-enter-active, .v-leave-active { transition: opacity .18s ease; }
+.v-enter-from, .v-leave-to { opacity: 0; }
+@keyframes fly-across { 0% { transform: translate(-5vw, 18px) rotate(7deg); } 45% { transform: translate(52vw, -27px) rotate(-3deg); } 100% { transform: translate(118vw, 8px) rotate(6deg); } }
+@keyframes login-flight { 0% { transform: translate(-2vw, 0) rotate(7deg); } 60% { transform: translate(64vw, 30px) rotate(-4deg); } 100% { transform: translate(122vw, -10px) rotate(8deg); } }
+@keyframes flap { from { transform: rotate(-17deg); } to { transform: rotate(20deg); } }
+@keyframes parrot-bob { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-6px) rotate(-4deg); } }
+@keyframes twinkle { 0%,100% { opacity: .45; transform: scale(.88); } 50% { opacity: 1; transform: scale(1.1); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes toast-in { from { transform: translateY(-8px); opacity: 0; } }
+@keyframes modal-in { from { transform: translateY(7px) scale(.985); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
