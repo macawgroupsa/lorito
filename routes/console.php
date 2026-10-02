@@ -13,23 +13,48 @@ Artisan::command('inspire', function () {
 
 Artisan::command('saas:install', function () {
     $centralDatabase = (string) env('CENTRAL_DB_DATABASE', 'lorito_central');
-    if (! preg_match('/^[a-zA-Z0-9_]+$/', $centralDatabase)) {
-        $this->error('CENTRAL_DB_DATABASE solo puede contener letras, números y guion bajo.');
+    $tenantDatabase = (string) env('DB_DATABASE', 'loritogt');
+    $databases = [
+        'central' => $centralDatabase,
+        'del negocio inicial' => $tenantDatabase,
+    ];
+
+    foreach ($databases as $databasePurpose => $databaseName) {
+        if (! preg_match('/^[a-zA-Z0-9_]{1,64}$/', $databaseName)) {
+            $this->error('El nombre de la base '.$databasePurpose.' solo puede contener hasta 64 letras, números y guiones bajos.');
+
+            return 1;
+        }
+    }
+
+    try {
+        foreach ($databases as $databaseName) {
+            DB::connection('mysql_server')->statement("CREATE DATABASE IF NOT EXISTS `{$databaseName}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        }
+    } catch (Throwable $exception) {
+        $this->error('No se pudieron crear las bases de datos de Lorito. El usuario MySQL configurado debe tener permiso para crear bases de datos. '.$exception->getMessage());
 
         return 1;
     }
-    DB::connection('mysql_server')->statement("CREATE DATABASE IF NOT EXISTS `{$centralDatabase}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-    DB::purge('central');
-    $exitCode = Artisan::call('migrate', ['--database' => 'central', '--path' => 'database/migrations/central', '--force' => true, '--no-interaction' => true]);
-    if ($exitCode !== 0) {
-        $this->error(Artisan::output());
 
-        return $exitCode;
+    $migrationTargets = [
+        'central' => 'database/migrations/central',
+        'tenant' => 'database/migrations',
+    ];
+
+    foreach ($migrationTargets as $connection => $path) {
+        DB::purge($connection);
+        $exitCode = Artisan::call('migrate', ['--database' => $connection, '--path' => $path, '--force' => true, '--no-interaction' => true]);
+        if ($exitCode !== 0) {
+            $this->error(Artisan::output());
+
+            return $exitCode;
+        }
     }
 
     Tenant::firstOrCreate(
         ['slug' => env('TENANT_DEFAULT_SLUG', 'lorito')],
-        ['name' => 'Lorito local', 'owner_email' => env('SUPERADMIN_EMAIL', 'admin@lorito.local'), 'database_name' => env('DB_DATABASE', 'loritogt'), 'subscription_status' => 'active', 'subscription_plan' => 'Desarrollo local', 'subscription_amount' => 0],
+        ['name' => 'Lorito local', 'owner_email' => env('SUPERADMIN_EMAIL', 'admin@lorito.local'), 'database_name' => $tenantDatabase, 'subscription_status' => 'active', 'subscription_plan' => 'Desarrollo local', 'subscription_amount' => 0],
     );
 
     $email = env('SUPERADMIN_EMAIL');
@@ -43,5 +68,5 @@ Artisan::command('saas:install', function () {
     } else {
         $this->info('El superadministrador se crea mediante la migración central.');
     }
-    $this->info('SaaS inicializado. Base central: '.$centralDatabase.'; tenant local: '.env('TENANT_DEFAULT_SLUG', 'lorito'));
+    $this->info('SaaS inicializado. Base central: '.$centralDatabase.'; base del negocio inicial: '.$tenantDatabase.'; tenant: '.env('TENANT_DEFAULT_SLUG', 'lorito'));
 })->purpose('Prepara el registro SaaS de Lorito y el tenant local');
