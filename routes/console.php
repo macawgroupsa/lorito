@@ -29,7 +29,14 @@ Artisan::command('saas:install', function () {
 
     try {
         foreach ($databases as $databaseName) {
-            DB::connection('mysql_server')->statement("CREATE DATABASE IF NOT EXISTS `{$databaseName}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+            $databaseExists = DB::connection('mysql_server')->selectOne(
+                'SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?',
+                [$databaseName],
+            );
+
+            if (! $databaseExists) {
+                DB::connection('mysql_server')->statement("CREATE DATABASE `{$databaseName}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+            }
         }
     } catch (Throwable $exception) {
         $this->error('No se pudieron crear las bases de datos de Lorito. El usuario MySQL configurado debe tener permiso para crear bases de datos. '.$exception->getMessage());
@@ -70,3 +77,20 @@ Artisan::command('saas:install', function () {
     }
     $this->info('SaaS inicializado. Base central: '.$centralDatabase.'; base del negocio inicial: '.$tenantDatabase.'; tenant: '.env('TENANT_DEFAULT_SLUG', 'lorito'));
 })->purpose('Prepara el registro SaaS de Lorito y el tenant local');
+
+Artisan::command('saas:deploy', function () {
+    if (! app()->environment('production')) {
+        $this->info('Aprovisionamiento SaaS omitido fuera de producción.');
+
+        return 0;
+    }
+
+    $exitCode = Artisan::call('saas:install');
+    $output = trim(Artisan::output());
+
+    if ($output !== '') {
+        $this->line($output);
+    }
+
+    return $exitCode;
+})->purpose('Aprovisiona las bases de datos SaaS durante despliegues de producción');
